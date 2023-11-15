@@ -1,0 +1,68 @@
+ul {
+    list-style: none;
+  }
+  img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  
+  }
+  
+  .form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: blue;
+    height: 30px;
+  }
+  .span {
+    font-size: 12px;
+    font-weight: 400;
+  
+  }
+  .photo-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  .item {
+    width: calc((100% - 90px) / 4);
+  }
+  
+  .info-item {
+    text-align: center;
+  }
+  .info {
+    display: flex;
+  gap: 15px;
+  justify-content: center;
+  border: 2px solid #d0cece;
+  border-top: none;
+  }
+  .btn-span {
+  display: flex;
+  justify-content: center;
+  
+  }
+  
+  .load-more {
+  background-color: blue;
+  color: white;
+  cursor: pointer;
+  }
+  .load-more:hover {
+  border: solid;
+  background-color: brown;
+  }
+  .submit {
+  cursor: pointer;
+  }
+  
+  .submit:hover {
+  background-color: brown;
+  color: white;
+  }
