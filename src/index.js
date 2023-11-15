@@ -7,7 +7,7 @@ import { createMarkup } from './markup';
 const form = document.querySelector('.search-form');
 const list = document.querySelector('.list');
 const BtnLoad = document.querySelector('.load-more');
-const axios = require('axios').default;
+// const axios = require('axios').default;
 let currentPage = 1;
 let query;
 
