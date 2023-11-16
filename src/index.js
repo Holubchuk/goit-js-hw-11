@@ -10,7 +10,6 @@ const BtnLoad = document.querySelector('.load-more');
 let currentPage = 1;
 let query;
 
-
 form.addEventListener('submit', onSearch);
 
 async function onSearch(event) {
@@ -21,11 +20,10 @@ async function onSearch(event) {
 
   try {
     await getImage(query, currentPage).then(data => {
-      if (
-        data.totalHits === 0 ||
-        query === '' ||
-        data.totalHits <= currentPage * 40
-      ) {
+      if (data.totalHits === 0 || query === '') {
+        if (data.totalHits < 40) {
+          BtnLoad.hidden = true;
+        }
         list.innerHTML = '';
         BtnLoad.hidden = true;
         throw new Error();
