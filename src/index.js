@@ -16,16 +16,23 @@ async function onSearch(event) {
   event.preventDefault();
   currentPage = 1;
   const queryInput = form.elements.searchQuery;
-  query = queryInput.value;
+  query = queryInput.value.trim();
+  BtnLoad.hidden = true;
+
+  if (!query) {
+    Notiflix.Notify.failure(
+      'Sorry, there are no images matching your search query. Please try again'
+    );
+    return;
+  }
 
   try {
     await getImage(query, currentPage).then(data => {
-      if (data.totalHits === 0 || query === '') {
-        if (data.totalHits < 40) {
-          BtnLoad.hidden = true;
-        }
-        list.innerHTML = '';
+      if (data.totalHits < 12) {
         BtnLoad.hidden = true;
+      }
+      if (data.totalHits === 0) {
+        list.innerHTML = '';
         throw new Error();
       }
 
@@ -56,13 +63,13 @@ function onLoad() {
   getImage(query, currentPage)
     .then(data => {
       list.insertAdjacentHTML('beforeend', createMarkup(data.hits));
-      if (data.totalHits <= currentPage * 40) {
+      if (data.totalHits < currentPage * 40) {
         BtnLoad.hidden = true;
-      } else {
-        BtnLoad.hidden = false;
       }
       let gallery = new SimpleLightbox('.gallery a');
       gallery.refresh();
     })
     .catch(err => console.log(err));
 }
+
+
