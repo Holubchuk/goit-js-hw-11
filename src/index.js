@@ -7,8 +7,9 @@ import { getImage } from './services-api';
 const form = document.querySelector('.search-form');
 const list = document.querySelector('.list');
 const BtnLoad = document.querySelector('.load-more');
-let currentPage = 1;
+let currentPage;
 let query;
+let perPage = 40;
 
 form.addEventListener('submit', onSearch);
 
@@ -17,26 +18,20 @@ async function onSearch(event) {
   currentPage = 1;
   const queryInput = form.elements.searchQuery;
   query = queryInput.value.trim();
-  BtnLoad.hidden = true;
-
-  if (!query) {
-    Notiflix.Notify.failure(
-      'Sorry, there are no images matching your search query. Please try again'
-    );
-    return;
-  }
 
   try {
-    await getImage(query, currentPage).then(data => {
-      if (data.totalHits < 12) {
+    await getImage(query, currentPage, perPage).then(data => {
+      if (data.totalHits < perPage) {
         BtnLoad.hidden = true;
+      } else {
+        BtnLoad.hidden = false;
       }
-      if (data.totalHits === 0) {
+      if (data.totalHits === 0 || !query) {
         list.innerHTML = '';
+        BtnLoad.hidden = true;
         throw new Error();
       }
 
-      BtnLoad.hidden = false;
       list.innerHTML = createMarkup(data.hits);
 
       Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images`);
@@ -60,10 +55,10 @@ BtnLoad.addEventListener('click', onLoad);
 
 function onLoad() {
   currentPage += 1;
-  getImage(query, currentPage)
+  getImage(query, currentPage, perPage)
     .then(data => {
       list.insertAdjacentHTML('beforeend', createMarkup(data.hits));
-      if (data.totalHits < currentPage * 40) {
+      if (data.totalHits < currentPage * perPage) {
         BtnLoad.hidden = true;
       }
       let gallery = new SimpleLightbox('.gallery a');
@@ -71,5 +66,3 @@ function onLoad() {
     })
     .catch(err => console.log(err));
 }
-
-

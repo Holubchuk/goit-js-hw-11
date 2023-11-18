@@ -1,7 +1,7 @@
 import Notiflix from 'notiflix';
 import axios from 'axios';
 
-export async function getImage(query, page) {
+export async function getImage(query, page, perPage) {
     const BASE_URL = 'https://pixabay.com/api/';
     const KEY = '40632691-213f7517e31f589a015673005';
   
@@ -11,7 +11,7 @@ export async function getImage(query, page) {
       image_type: 'photo',
       orientation: 'horizontal',
       safesearch: 'true',
-      per_page: 40,
+      per_page: perPage,
       page: page,
     };
   
